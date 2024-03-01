@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     password: String,
     role: String,
     verified: Boolean
-}, {new: true})
+}, {timestamps: true})
 
 const User = mongoose.model("User", userSchema)
 

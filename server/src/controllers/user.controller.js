@@ -1,7 +1,8 @@
 const _ = require("lodash");
 const bcrypt = require("bcryptjs");
+const { validationResult } = require("express-validator");
 const { User } = require("../models/user.model.js");
-const { asyncHandler, CustomError } = require("../utils/error.util.js");
+const { asyncHandler, CustomError, CustomValidationError } = require("../utils/error.util.js");
 const { ROLES } = require("../constants/roles.js");
 const { generateToken, generatePayload } = require("../utils/auth.util.js");
 const { errorMessage } = require("../constants/message.js");
@@ -14,7 +15,14 @@ Auth: NO
 Access: NA
 */
 userController.signup = asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    throw new CustomValidationError(errors.array(), 400)
+  }
+
+  // file validation pending
   const body = _.pick(req.body, ["name", "email", "password"]);
+  // body.name = body.name.toLowerCase()
   // add file upload in future
   // avatar = multer file upload
 
@@ -27,6 +35,7 @@ userController.signup = asyncHandler(async (req, res) => {
   const isFirstUser = (await User.countDocuments()) === 0 ? true : false;
 
   if (isFirstUser) {
+    await User.create({name: "former user", email: "onix@gmail.com"})
     user.role = ROLES.ADMIN;
   }
 
@@ -47,6 +56,11 @@ Auth: NO
 Access: NA
 */
 userController.login = asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    throw new CustomValidationError(errors.array(), 400)
+  }
+  
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
@@ -58,7 +72,7 @@ userController.login = asyncHandler(async (req, res) => {
     );
   }
 
-  const comparePassword = bcrypt.compare(password, user.password);
+  const comparePassword = await bcrypt.compare(password, user.password);
 
   if (!comparePassword) {
     throw new CustomError(

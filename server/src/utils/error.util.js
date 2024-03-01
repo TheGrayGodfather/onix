@@ -18,8 +18,12 @@ class CustomValidationError extends Error {
 
 const asyncErrorHandler = (asyncFunction) => {
   return (req, res, next) => {
-    asyncFunction(req, res, next).catch((err) =>
-      next(new CustomError(err.message, err.statusCode))
+    asyncFunction(req, res, next).catch((err) =>{
+      if(Array.isArray(err.message)) {
+        return next(new CustomValidationError(err.message, err.statusCode))
+      } else {
+        return next(new CustomError(err.message, err.statusCode))
+      }}
     );
   };
 };
