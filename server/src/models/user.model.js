@@ -5,7 +5,10 @@ const userSchema = new mongoose.Schema({
     email: String,
     password: String,
     role: String,
-    verified: Boolean
+    verified: {
+        type: Boolean,
+        default: false
+    }
 }, {timestamps: true})
 
 const User = mongoose.model("User", userSchema)

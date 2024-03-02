@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
 const { User } = require("../models/user.model.js");
 const { asyncHandler, CustomError, CustomValidationError } = require("../utils/error.util.js");
-const { ROLES } = require("../constants/roles.js");
+const { ROLES } = require("../constants/miscellaneous.js");
 const { generateToken, generatePayload } = require("../utils/auth.util.js");
 const { errorMessage } = require("../constants/message.js");
 

@@ -13,6 +13,7 @@ app.use(express.json())
 app.use(cors())
 
 app.use("/api/auth", require("./routes/auth.route.js"))
+app.use("/api/otp", require("./routes/otp.route.js"))
 
 // path not found
 app.all("*", (req, res, next) => {

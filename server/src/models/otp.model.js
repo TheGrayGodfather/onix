@@ -2,14 +2,17 @@ const { default: mongoose } = require("mongoose");
 
 const optSchema = new mongoose.Schema(
   {
-    userId: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
     OTP: String,
-    expiredAt: Date,
+    expiredAt: {
+      type: Date,
+      default: new Date(Date.now() + 2 * 60 * 1000)
+    },
   },
-  { new: true }
+  { timestamps: true }
 );
 
 const OTP = mongoose.model("OTP", optSchema);
