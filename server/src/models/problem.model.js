@@ -12,13 +12,14 @@ const problemSchema = new mongoose.Schema(
     examples: [String], // markup
     constrains: String, // list markup
     level: String, // easy, medium, hard
-    topics: String, // separated by comma markup
+    category: String, // separated by comma markup
     points: Number,
     referenceLink: String,
     author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     starterCode: String, // code in string
     testCase: [testCaseSchema],
     executionFunction: String,
+    problemSet: { type: mongoose.Schema.Types.ObjectId, ref: "ProblemSet" }
   },
   { timestamps: true }
 );

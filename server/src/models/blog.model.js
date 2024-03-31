@@ -2,13 +2,11 @@ const { default: mongoose } = require("mongoose");
 
 const blogSchema = new mongoose.Schema({
     title: String,
-    topics: Strings, // separated by comma
+    category: Strings, // separated by comma
     content: String, // markup
     coverPicture: String,
-    author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    },
+    author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    problemSet: { type: mongoose.Schema.Types.ObjectId, ref: "ProblemSet" },
     isAdminVerified: Boolean,
 }, { timestamps: true })
 
